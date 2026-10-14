@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Little Corner — Portfolio</title>
+<style>
+  :root{
+    --ink:#27202a; --paper:#fffaf5; --pink:#ef9fc5; --pink2:#f8c9dc;
+    --berry:#8f254e; --lav:#bca5f4; --yellow:#f6dc78; --green:#526d3e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;color:var(--ink);font-family:Arial,Helvetica,sans-serif;
+    background:#202027;display:grid;place-items:center;padding:24px;overflow-x:hidden}
+  button{font:inherit}
+  .site{width:min(1120px,100%);min-height:690px;position:relative;overflow:hidden;border-radius:18px;
+    background:linear-gradient(180deg,#ffdce8 0%,#f5b6d2 42%,#8db65a 43%,#4f783a 100%);
+    box-shadow:0 24px 80px #0005}
+  .sky{position:absolute;inset:0 0 57% 0;background:linear-gradient(125deg,#fff4ed,#ffc9e0 65%,#d9c4f5)}
+  .sky:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 15%,#fff9 0,transparent 35%),radial-gradient(ellipse at 80% 25%,#fff6,transparent 30%)}
+  .grass{position:absolute;left:-5%;right:-5%;bottom:-12%;height:47%;background:
+    radial-gradient(ellipse at 20% 40%,#a7cb68 0 2px,transparent 3px),
+    radial-gradient(ellipse at 70% 60%,#d0db78 0 1px,transparent 3px),
+    linear-gradient(180deg,#8bbf4f,#507b38);background-size:19px 17px,23px 21px,auto;
+    transform:rotate(-1deg)}
+  .topbar{position:absolute;top:25px;left:5%;right:5%;display:flex;justify-content:space-between;gap:12px;
+    z-index:5;font-size:14px;letter-spacing:.02em}
+  .topbar span{background:#fff8;padding:7px 11px;border-radius:20px}
+  .folder-wrap{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);width:min(650px,78%);height:390px;z-index:2}
+  .folder-tab{position:absolute;left:7%;top:-22px;width:36%;height:48px;background:#e88eb8;border-radius:14px 14px 0 0;transform:rotate(-2deg)}
+  .folder{position:absolute;inset:0;background:linear-gradient(145deg,#f7b8d5,#e991bd);border:1px solid #c9689b;
+    border-radius:13px 12px 18px 18px;box-shadow:0 16px 25px #51253d55, inset 0 2px 4px #fff8;
+    cursor:pointer;transition:transform .35s,filter .35s;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px}
+  .folder:before{content:"";position:absolute;inset:10px;border:1px dashed #fff8;border-radius:9px;pointer-events:none}
+  .folder:hover{transform:translateY(-5px) rotate(-.4deg);filter:saturate(1.05)}
+  .folder-content{position:relative;z-index:2;color:white;text-shadow:0 2px 4px #77345155}
+  .folder-kicker{font-size:clamp(14px,2vw,21px);margin-bottom:6px}
+  .folder-title{font-family:Georgia,serif;font-size:clamp(48px,8vw,88px);line-height:.92;font-style:italic;font-weight:bold;letter-spacing:-.06em}
+  .folder-sub{margin-top:20px;font-size:14px}
+  .hint{display:inline-block;margin-top:23px;background:#fff0f7;color:#7c2e54;padding:10px 16px;border-radius:30px;font-size:12px;font-weight:bold;letter-spacing:.08em}
+  .tape{position:absolute;z-index:4;top:3px;left:17%;width:37%;height:25px;background:#f8e9d6cc;transform:rotate(2deg);box-shadow:0 2px 2px #0001}
+  .bow{position:absolute;z-index:5;left:-5%;top:-28px;color:#7e1d43;font-size:74px;filter:drop-shadow(0 4px 2px #5b183633);transform:rotate(-12deg);pointer-events:none}
+  .polaroid{position:absolute;right:-2%;top:-53px;width:148px;padding:9px 9px 28px;background:#fffdf8;box-shadow:0 8px 13px #0004;transform:rotate(7deg);z-index:7;cursor:pointer;border:0;transition:transform .25s}
+  .polaroid:hover{transform:rotate(1deg) translateY(-5px)}
+  .photo-placeholder{height:126px;background:linear-gradient(135deg,#c4a2ec,#f4b5cf 55%,#ef9a76);display:grid;place-items:center;color:#39213c;text-align:center;font-family:Georgia,serif;font-size:16px;font-style:italic;padding:8px}
+  .photo-caption{position:absolute;bottom:7px;left:0;right:0;font-family:cursive;font-size:13px;color:#5e3148}
+  .sticker{position:absolute;z-index:6;font-size:39px;filter:drop-shadow(0 3px 1px #0002);pointer-events:none}
+  .heart{left:-3%;bottom:-6px;transform:rotate(-15deg)}
+  .flower{right:-4%;bottom:42px;transform:rotate(12deg)}
+  .papers{position:absolute;inset:0;z-index:1;pointer-events:none}
+  .paper{position:absolute;left:50%;top:50%;width:43%;height:67%;padding:18px 15px;background:var(--paper);
+    border:1px solid #e3d7cf;box-shadow:0 8px 18px #2c152a44;border-radius:4px;transform:translate(-50%,-50%) rotate(0);
+    opacity:0;transition:transform .65s cubic-bezier(.2,.8,.2,1),opacity .3s;cursor:pointer;pointer-events:none;text-align:left}
+  .paper:before{content:"";position:absolute;left:0;right:0;top:0;height:11px;background:repeating-linear-gradient(135deg,#f2b6d0 0 8px,#fff 8px 16px)}
+  .paper h3{font-family:Georgia,serif;font-size:clamp(15px,2vw,22px);margin:10px 0 8px;color:#60243e}
+  .paper p{font-size:clamp(10px,1.2vw,13px);line-height:1.5;margin:0;color:#51434a}
+  .paper .mini{font-size:26px;display:block;margin:8px 0}
+  .site.open .papers{z-index:4;pointer-events:auto}
+  .site.open .paper{opacity:1;pointer-events:auto}
+  .site.open .paper:nth-child(1){transform:translate(-132%,-61%) rotate(-9deg)}
+  .site.open .paper:nth-child(2){transform:translate(-50%,-82%) rotate(2deg)}
+  .site.open .paper:nth-child(3){transform:translate(32%,-58%) rotate(8deg)}
+  .site.open .folder{transform:translateY(18px) scale(.98);filter:saturate(.85)}
+  .site.open .polaroid{z-index:8}
+  .about-panel{position:absolute;inset:0;background:#201b24f2;z-index:10;display:none;place-items:center;padding:24px}
+  .about-panel.show{display:grid}
+  .about-card{width:min(680px,100%);background:#fff8f0;padding:clamp(22px,5vw,42px);border:3px solid #e6a0c2;box-shadow:10px 10px 0 #a888d8;position:relative}
+  .about-card h2{font:italic bold clamp(32px,6vw,54px) Georgia,serif;margin:0 0 12px;color:#7c2c50}
+  .about-card p{line-height:1.7;max-width:55ch}
+  .close{position:absolute;right:12px;top:10px;border:0;background:#f1c5dc;border-radius:50%;width:34px;height:34px;cursor:pointer}
+  .actions{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:8;display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;width:95%}
+  .action{border:1px solid #ffffffa8;background:#211b26d9;color:#fff;padding:10px 15px;border-radius:30px;cursor:pointer;font-size:12px}
+  .action:hover{background:#693354}
+  .note{position:absolute;bottom:72px;right:3%;z-index:3;background:#f8dc78;padding:10px 12px;transform:rotate(5deg);font:italic 14px Georgia,serif;box-shadow:2px 4px 5px #0002}
+  .status{position:absolute;top:77px;left:50%;transform:translateX(-50%);z-index:6;background:#17151bcc;color:white;border-radius:20px;padding:8px 13px;font-size:12px;white-space:nowrap}
+  @media(max-width:650px){
+    body{padding:8px}.site{min-height:680px;border-radius:12px}.topbar{top:12px;font-size:10px}.topbar span{padding:6px}
+    .folder-wrap{width:82%;height:330px;top:48%}.polaroid{width:105px;right:-5%;top:-47px;padding:6px 6px 23px}
+    .photo-placeholder{height:88px;font-size:12px}.bow{font-size:53px;left:-6%;top:-20px}
+    .paper{width:47%;height:58%;padding:12px 9px}.paper .mini{font-size:20px}
+    .site.open .paper:nth-child(1){transform:translate(-104%,-66%) rotate(-7deg)}
+    .site.open .paper:nth-child(2){transform:translate(-50%,-89%) rotate(2deg)}
+    .site.open .paper:nth-child(3){transform:translate(4%,-64%) rotate(7deg)}
+    .note{font-size:12px;bottom:85px}.actions{bottom:15px}.action{padding:9px 12px}
+  }
+  @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main class="site" id="site" aria-label="Interactive scrapbook portfolio">
+  <div class="sky"></div><div class="grass"></div>
+  <header class="topbar"><span>MY SCRAPBOOK</span><span>PORTFOLIO · 2026</span><span>MADE BY ME ✳</span></header>
+  <div class="status" id="status" aria-live="polite">Click the folder to reveal three pages ✂</div>
+  <div class="folder-wrap">
+    <div class="papers" aria-label="Scrapbook sections">
+      <button class="paper" data-page="achievements" aria-label="Open accomplishments page">
+        <span class="mini">🏆 ✷</span><h3>The plot so far</h3><p>Accomplishments, experiences, milestones, and things I'm proud of.</p><p style="margin-top:10px;font-size:11px">CLICK TO OPEN ↗</p>
+      </button>
+      <button class="paper" data-page="projects" aria-label="Open current projects page">
+        <span class="mini">✂️ 💡</span><h3>The idea lab</h3><p>Projects I'm building, ideas I'm testing, and the messy middle.</p><p style="margin-top:10px;font-size:11px">CLICK TO OPEN ↗</p>
+      </button>
+      <button class="paper" data-page="hobbies" aria-label="Open hobbies and interests page">
+        <span class="mini">♡ ✿</span><h3>Things I love</h3><p>Hobbies, interests, inspiration, and little things that feel like me.</p><p style="margin-top:10px;font-size:11px">CLICK TO OPEN ↗</p>
+      </button>
+    </div>
+    <div class="tape"></div><div class="bow">🎀</div>
+    <button class="folder" id="folder" aria-expanded="false" aria-label="Open folder to reveal portfolio sections">
+      <div class="folder-content">
+        <div class="folder-kicker">a little collection of</div>
+        <div class="folder-title">My World</div>
+        <div class="folder-sub">Ideas, projects & pieces of me</div>
+        <span class="hint" id="folderHint">CLICK TO OPEN THE FOLDER ✳</span>
+      </div>
+    </button>
+    <button class="polaroid" id="aboutButton" aria-label="Open About Me page">
+      <div class="photo-placeholder">Your photo<br>goes here ♡</div><span class="photo-caption">that's me!</span>
+    </button>
+    <span class="sticker heart">💗</span><span class="sticker flower">🌼</span>
+  </div>
+  <div class="note">little by little ✎</div>
+  <div class="actions">
+    <button class="action" id="toggle">✂ Open folder</button>
+    <button class="action" id="aboutShortcut">♡ About me</button>
+    <button class="action" id="reset">↺ Start over</button>
+  </div>
+  <section class="about-panel" id="aboutPanel" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <div class="about-card">
+      <button class="close" id="closeAbout" aria-label="Close About Me">×</button>
+      <h2 id="aboutTitle">A little about me...</h2>
+      <p>Hi! I'm [Your Name] — a creative, ambitious person who loves turning ideas into something real. I'm interested in entrepreneurship, sustainability, and all the little things that inspire me to make things.</p>
+      <p>This is my corner of the internet: part portfolio, part scrapbook, and always a work in progress. Replace this with your own story when you're ready.</p>
+      <span>♡ thanks for stopping by</span>
+    </div>
+  </section>
+</main>
+<script>
+  const site = document.getElementById('site');
+  const folder = document.getElementById('folder');
+  const toggle = document.getElementById('toggle');
+  const status = document.getElementById('status');
+  const hint = document.getElementById('folderHint');
+  const aboutPanel = document.getElementById('aboutPanel');
+  function setOpen(open){
+    site.classList.toggle('open', open);
+    folder.setAttribute('aria-expanded', String(open));
+    toggle.textContent = open ? '✂ Close folder' : '✂ Open folder';
+    hint.textContent = open ? 'YOUR PAGES ARE HERE ✳' : 'CLICK TO OPEN THE FOLDER ✳';
+    status.textContent = open ? 'Choose a paper to explore a section ✨' : 'Click the folder to reveal three pages ✂';
+  }
+  folder.addEventListener('click', () => setOpen(!site.classList.contains('open')));
+  toggle.addEventListener('click', () => setOpen(!site.classList.contains('open')));
+  document.getElementById('reset').addEventListener('click', () => { setOpen(false); aboutPanel.classList.remove('show'); });
+  function showAbout(){ aboutPanel.classList.add('show'); }
+  document.getElementById('aboutButton').addEventListener('click', showAbout);
+  document.getElementById('aboutShortcut').addEventListener('click', showAbout);
+  document.getElementById('closeAbout').addEventListener('click', () => aboutPanel.classList.remove('show'));
+  aboutPanel.addEventListener('click', e => { if(e.target === aboutPanel) aboutPanel.classList.remove('show'); });
+  document.querySelectorAll('.paper').forEach(paper => paper.addEventListener('click', () => {
+    const labels = {
+      achievements: ['The plot so far', 'Add your accomplishments, school activities, awards, work experience, and milestones here.'],
+      projects: ['The idea lab', 'Add your current projects, what inspired each one, your process, and what you are learning.'],
+      hobbies: ['Things I love', 'Add your hobbies, favorite things, interests, sustainability inspiration, and creative discoveries.']
+    };
+    const [title, copy] = labels[paper.dataset.page];
+    const card = document.querySelector('.about-card');
+    card.innerHTML = `<button class="close" id="closeSection" aria-label="Close section">×</button><h2>${title}</h2><p>${copy}</p><p>We'll turn this into a full scrapbook page with your real content next.</p><span>♡ one page at a time</span>`;
+    aboutPanel.classList.add('show');
+    document.getElementById('closeSection').addEventListener('click', () => aboutPanel.classList.remove('show'));
+  }));
+</script>
+</body>
+</html>
