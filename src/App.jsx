@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import pramitiPhoto from './assets/pramiti-photo.png';
+import journalCharacterSticker from './assets/journal-character-sticker.png';
+import strawberrySticker from './assets/strawberry-sticker.png';
 
 const paperContent = {
   achievements: {
@@ -192,7 +194,11 @@ function App() {
 
       <section className={`about-panel ${aboutOpen ? 'show' : ''}`} role="dialog" aria-modal="true" aria-labelledby="aboutTitle" onClick={(event) => { if (event.target === event.currentTarget) closePanel(); }}>
         <div className={`about-card${activePage ? '' : ' notebook-card'}`}>
-          <button type="button" className="close" aria-label="Close panel" onClick={closePanel}>×</button>
+          <button type="button" className="close" aria-label="Close panel" onClick={closePanel}>
+            <svg className="close-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 7l10 10M17 7 7 17" />
+            </svg>
+          </button>
           {activePage ? (
             <>
               <h2 id="aboutTitle">{panelTitle}</h2>
@@ -203,13 +209,39 @@ function App() {
             </>
           ) : (
             <>
-              <h2 id="aboutTitle">A little about me...</h2>
+              <h2 id="aboutTitle">
+                <span className="about-title-text">A little about me...</span>
+                <span className="notebook-sparkle" aria-hidden="true">✨</span>
+              </h2>
               <div className="notebook-body">
                 <div className="about-polaroid" aria-label="Photo placeholder">
+                  <span className="polaroid-tape" aria-hidden="true" />
+                  <span className="polaroid-sticker polaroid-heart" aria-hidden="true">💗</span>
                   <img className="about-photo-placeholder" src={pramitiPhoto} alt="Pramiti smiling in a pink outfit" />
-                  <span>that&apos;s me!</span>
+                  <span className="polaroid-caption">that&apos;s me!</span>
+                  <span className="polaroid-sticker polaroid-flower" aria-hidden="true">🌼</span>
+                  <svg className="journal-mascot-sticker" viewBox="0 0 120 110" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="cloud-fill" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0" stopColor="#dff8f2" />
+                        <stop offset="1" stopColor="#a8dfdb" />
+                      </linearGradient>
+                    </defs>
+                    <path className="sticker-cutline" d="M28 83C14 83 6 74 6 61c0-12 9-22 22-23 3-16 16-27 32-27 15 0 27 10 31 25 14-2 25 8 25 22 0 14-10 25-25 25H28Z" />
+                    <path className="mascot-cloud" d="M28 83C14 83 6 74 6 61c0-12 9-22 22-23 3-16 16-27 32-27 15 0 27 10 31 25 14-2 25 8 25 22 0 14-10 25-25 25H28Z" />
+                    <circle className="mascot-eye" cx="45" cy="57" r="3" />
+                    <circle className="mascot-eye" cx="76" cy="57" r="3" />
+                    <path className="mascot-smile" d="M51 67c5 7 14 7 19 0" />
+                    <path className="sticker-star-cutline" d="m101 11 4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1 4-8Z" />
+                    <path className="mascot-star" d="m101 11 4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1 4-8Z" />
+                  </svg>
                 </div>
                 <div className="bio-note">
+                  <img
+                    className="bio-character-sticker"
+                    src={journalCharacterSticker}
+                    alt="White-outlined character sticker"
+                  />
                   <div className="about-bio">
                     <h3>hi, i&apos;m pramiti! ♡</h3>
                     <p>I&apos;m a creative thinker, an aspiring entrepreneur, and someone who&apos;s always looking for new ways to turn ideas into something meaningful. Whether I&apos;m developing a new project, exploring a business idea, or creating something just because I&apos;m curious, I love the process of taking a thought and bringing it to life.</p>
@@ -220,6 +252,7 @@ function App() {
                   </div>
                 </div>
               </div>
+              <img className="bio-strawberry-sticker" src={strawberrySticker} alt="" aria-hidden="true" />
             </>
           )}
         </div>

@@ -77,13 +77,13 @@ button {
   justify-content: space-between;
   gap: 12px;
   z-index: 5;
-  font-size: 14px;
+  font-size: 16px;
   letter-spacing: 0.02em;
 }
 
 .topbar span {
   background: #fff8;
-  padding: 7px 11px;
+  padding: 9px 13px;
   border-radius: 20px;
 }
 
@@ -92,8 +92,8 @@ button {
   left: 50%;
   top: 52%;
   transform: translate(-50%, -50%);
-  width: min(650px, 78%);
-  height: 390px;
+  width: min(780px, 82%);
+  height: clamp(350px, 55vh, 470px);
   z-index: 2;
 }
 
@@ -221,19 +221,21 @@ button {
 .folder-content {
   position: relative;
   z-index: 2;
+  width: 100%;
   color: white;
   text-shadow: 0 2px 4px #77345155;
+  text-align: center;
   transition: opacity 0.2s, visibility 0.2s;
 }
 
 .folder-kicker {
-  font-size: clamp(14px, 2vw, 21px);
-  margin-bottom: 6px;
+  font-size: clamp(16px, 2.2vw, 24px);
+  margin-bottom: 8px;
 }
 
 .folder-title {
   font-family: Georgia, serif;
-  font-size: clamp(48px, 8vw, 88px);
+  font-size: clamp(58px, 9vw, 104px);
   line-height: 0.92;
   font-style: italic;
   font-weight: bold;
@@ -241,18 +243,18 @@ button {
 }
 
 .folder-sub {
-  margin-top: 20px;
-  font-size: 14px;
+  margin-top: 22px;
+  font-size: 16px;
 }
 
 .hint {
   display: inline-block;
-  margin-top: 23px;
+  margin-top: 26px;
   background: #fff0f7;
   color: #7c2e54;
-  padding: 10px 16px;
+  padding: 12px 18px;
   border-radius: 30px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   letter-spacing: 0.08em;
 }
@@ -261,8 +263,8 @@ button {
   position: absolute;
   right: -2%;
   top: -53px;
-  width: 148px;
-  padding: 9px 9px 28px;
+  width: 174px;
+  padding: 11px 11px 32px;
   background: #fffdf8;
   box-shadow: 0 8px 13px #0004;
   transform: rotate(7deg);
@@ -280,7 +282,7 @@ button {
 
 .home-photo-window {
   display: block;
-  height: 126px;
+  height: 148px;
   width: 100%;
   overflow: hidden;
 }
@@ -296,11 +298,11 @@ button {
 
 .photo-caption {
   position: absolute;
-  bottom: 7px;
+  bottom: 8px;
   left: 0;
   right: 0;
   font-family: cursive;
-  font-size: 13px;
+  font-size: 15px;
   color: #5e3148;
 }
 
@@ -344,7 +346,7 @@ button {
 .sticker {
   position: absolute;
   z-index: 6;
-  font-size: 39px;
+  font-size: 48px;
   filter: drop-shadow(0 3px 1px #0002);
   pointer-events: none;
 }
@@ -353,7 +355,7 @@ button {
   left: -5%;
   top: -28px;
   z-index: 6;
-  font-size: 74px;
+  font-size: 86px;
   transform: rotate(-12deg);
 }
 
@@ -381,7 +383,7 @@ button {
   left: 50%;
   top: 50%;
   width: 30%;
-  height: clamp(300px, 42vh, 390px);
+  height: clamp(330px, 46vh, 430px);
   padding: 22px 20px;
   background: var(--paper);
   border: 1px solid #e3d7cf;
@@ -502,13 +504,13 @@ button {
 }
 
 .about-panel {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: #201b24f2;
   z-index: 10;
   display: none;
   place-items: center;
-  padding: 16px;
+  padding: 0;
 }
 
 .about-panel.show {
@@ -525,7 +527,8 @@ button {
 }
 
 .notebook-card {
-  width: min(1240px, 100%);
+  width: 100%;
+  max-width: none;
   height: 100%;
   overflow: hidden;
   display: flex;
@@ -545,11 +548,19 @@ button {
   flex: 0 0 auto;
 }
 
+.notebook-sparkle {
+  display: inline-block;
+  margin-left: 10px;
+  font: inherit;
+  font-style: normal;
+  vertical-align: 0.12em;
+}
+
 .notebook-body {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
   grid-template-rows: 1fr;
-  gap: 12px clamp(16px, 2vw, 24px);
+  gap: 12px clamp(28px, 3vw, 42px);
   align-items: stretch;
   flex: 1 1 auto;
   min-height: 0;
@@ -557,6 +568,7 @@ button {
 }
 
 .about-polaroid {
+  position: relative;
   grid-column: 1;
   grid-row: 1;
   width: 100%;
@@ -566,11 +578,88 @@ button {
   display: flex;
   flex-direction: column;
   margin: 0;
-  padding: 15px 15px 40px;
+  padding: 15px 15px 12px;
   background: #fffefa;
   box-shadow: 0 5px 12px #57364b33;
   transform: rotate(-3deg);
   text-align: center;
+}
+
+.polaroid-tape {
+  position: absolute;
+  z-index: 2;
+  top: -12px;
+  left: 50%;
+  width: 116px;
+  height: 30px;
+  background: #f8e9d6d9;
+  box-shadow: 0 1px 2px #593b451c;
+  transform: translateX(-50%) rotate(2deg);
+}
+
+.polaroid-sticker {
+  position: absolute;
+  z-index: 3;
+  font-size: clamp(38px, 4vw, 58px);
+  line-height: 1;
+  filter: drop-shadow(0 2px 2px #57364b44);
+  pointer-events: none;
+}
+
+.polaroid-heart {
+  top: 17%;
+  left: -0.55em;
+  transform: rotate(-12deg);
+}
+
+.polaroid-flower {
+  right: -0.45em;
+  bottom: 14%;
+  transform: rotate(10deg);
+}
+
+.journal-mascot-sticker {
+  position: absolute;
+  z-index: 4;
+  left: -40px;
+  bottom: -24px;
+  width: clamp(76px, 7vw, 100px);
+  overflow: visible;
+  filter: drop-shadow(0 3px 2px #57364b44);
+  pointer-events: none;
+}
+
+.sticker-cutline,
+.sticker-star-cutline {
+  fill: white;
+  stroke: white;
+  stroke-width: 12px;
+  stroke-linejoin: round;
+}
+
+.mascot-cloud {
+  fill: url(#cloud-fill);
+  stroke: #528d91;
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
+}
+
+.mascot-eye {
+  fill: #385966;
+}
+
+.mascot-smile {
+  fill: none;
+  stroke: #385966;
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+}
+
+.mascot-star {
+  fill: #f6cf70;
+  stroke: #d39e43;
+  stroke-width: 2px;
+  stroke-linejoin: round;
 }
 
 .about-photo-placeholder {
@@ -582,11 +671,16 @@ button {
   object-position: 40% 43%;
 }
 
-.about-polaroid > span {
-  display: block;
-  margin-top: 9px;
+.about-polaroid > .polaroid-caption {
+  display: grid;
+  width: 100%;
+  height: 56px;
+  margin-top: 4px;
+  place-items: center;
+  white-space: nowrap;
   color: #713c5b;
-  font: 14px cursive;
+  font: 25px cursive;
+  text-align: center;
 }
 
 .bio-note {
@@ -596,11 +690,28 @@ button {
   width: 100%;
   align-self: stretch;
   min-height: 0;
+  overflow: visible;
   padding: clamp(15px, 2vw, 23px);
   background: #ffe1ed;
   border: 1px solid #efb6cf;
   box-shadow: 3px 6px 12px #74465a2b;
-  transform: rotate(0.5deg);
+  transform: rotate(1deg);
+}
+
+.bio-character-sticker {
+  position: absolute;
+  z-index: 2;
+  top: -26px;
+  right: -12px;
+  width: clamp(100px, 8vw, 116px);
+  height: auto;
+  filter: drop-shadow(0 3px 3px #57364b44);
+  transform: rotate(8deg);
+  pointer-events: none;
+}
+
+.bio-strawberry-sticker {
+  display: none;
 }
 
 .bio-note::before {
@@ -608,8 +719,9 @@ button {
   position: absolute;
   left: 50%;
   top: -13px;
-  width: 112px;
-  height: 27px;
+  width: 132px;
+  height: 32px;
+  z-index: 3;
   background: #f8e9d6d9;
   box-shadow: 0 1px 2px #593b451c;
   transform: translateX(-50%) rotate(-2deg);
@@ -620,27 +732,29 @@ button {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: clamp(6px, 1vh, 10px);
+  justify-content: space-between;
+  gap: clamp(12px, 1.8vh, 20px);
   padding-top: 10px;
+  overflow-y: auto;
   font-family: "Lexend Deca", Arial, Helvetica, sans-serif;
 }
 
 .about-bio h3 {
   margin: 0 0 8px;
+  padding-right: clamp(88px, 9vw, 124px);
   color: #7c2c50;
-  font: 600 clamp(24px, 2.2vw, 30px)/1.3 "Lexend Deca", Arial, Helvetica, sans-serif;
+  font: 600 clamp(30px, 2.6vw, 40px)/1.3 "Lexend Deca", Arial, Helvetica, sans-serif;
 }
 
 .about-bio p {
   max-width: none;
   margin: 0;
   color: var(--ink);
-  font: 400 clamp(16px, 1.35vw, 19px)/1.5 "Lexend Deca", Arial, Helvetica, sans-serif;
+  font: 400 clamp(18px, 1.5vw, 24px)/1.55 "Lexend Deca", Arial, Helvetica, sans-serif;
 }
 
 .about-card h2 {
-  font: italic bold clamp(32px, 6vw, 54px) Georgia, serif;
+  font: italic bold clamp(34px, 6vw, 72px) Georgia, serif;
   margin: 0 0 12px;
   color: #7c2c50;
 }
@@ -659,12 +773,33 @@ button {
   position: absolute;
   right: 12px;
   top: 10px;
+  display: grid;
+  place-items: center;
   border: 0;
   background: #f1c5dc;
   border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  box-shadow: 0 3px 10px #40233344, inset 0 1px 2px #fff8;
   cursor: pointer;
+}
+
+.close-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+@media (min-width: 651px) {
+  .close {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .actions {
@@ -685,10 +820,10 @@ button {
   border: 1px solid #ffffffa8;
   background: #211b26d9;
   color: #fff;
-  padding: 10px 15px;
+  padding: 12px 18px;
   border-radius: 30px;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .action:hover {
@@ -701,9 +836,9 @@ button {
   right: 3%;
   z-index: 3;
   background: #f8dc78;
-  padding: 10px 12px;
+  padding: 12px 15px;
   transform: rotate(5deg);
-  font: italic 14px Georgia, serif;
+  font: italic 16px Georgia, serif;
   box-shadow: 2px 4px 5px #0002;
 }
 
@@ -715,11 +850,11 @@ button {
   display: grid;
   gap: 5px;
   max-width: 52%;
-  padding: 9px 13px;
+  padding: 11px 15px;
   border-radius: 20px;
   background: #fff8;
   color: var(--ink);
-  font-size: 12px;
+  font-size: 14px;
   letter-spacing: 0.02em;
 }
 
@@ -737,7 +872,7 @@ button {
 }
 
 .contact-card strong {
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.06em;
 }
 
@@ -751,7 +886,115 @@ button {
   text-decoration: underline;
 }
 
+@keyframes title-typewriter {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes sparkle-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.65);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes scrapbook-rise {
+  from {
+    opacity: 0;
+    transform: translateY(48px) rotate(0);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes note-rise {
+  from {
+    opacity: 0;
+    transform: translateY(54px) rotate(0);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(1deg);
+  }
+}
+
+@keyframes tape-slap {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-18px) rotate(-12deg) scale(0.65);
+  }
+  65% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(2px) rotate(5deg) scale(1.08);
+  }
+  82% {
+    transform: translateX(-50%) translateY(-1px) rotate(-3deg) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) rotate(-2deg) scale(1);
+  }
+}
+
+.about-panel.show .about-title-text {
+  display: inline-block;
+  clip-path: inset(0 100% 0 0);
+  animation: title-typewriter 1.35s steps(22, end) 0.15s both;
+}
+
+.about-panel.show .notebook-sparkle {
+  opacity: 0;
+  animation: sparkle-appear 0.35s ease-out 1.5s both;
+}
+
+.about-panel.show .about-polaroid {
+  opacity: 0;
+  animation: scrapbook-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 1.25s both;
+}
+
+.about-panel.show .bio-note {
+  opacity: 0;
+  animation: note-rise 0.75s cubic-bezier(0.2, 0.8, 0.2, 1) 1.45s both;
+}
+
+.about-panel.show .polaroid-tape,
+.about-panel.show .bio-note::before {
+  animation: tape-slap 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 2.2s both;
+}
+
 @media (max-width: 650px) {
+  .notebook-sparkle {
+    display: none;
+  }
+
+  .folder-kicker {
+    font-size: 13px;
+  }
+
+  .folder-title {
+    font-size: clamp(40px, 13vw, 54px);
+  }
+
+  .folder-sub {
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .hint {
+    margin-top: 18px;
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.35;
+    letter-spacing: 0.06em;
+  }
+
   .site {
     min-height: 100vh;
     min-height: 100dvh;
@@ -873,13 +1116,13 @@ button {
   }
 
   .about-panel {
-    padding: 8px;
+    padding: 0;
   }
 
   .notebook-body {
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: auto minmax(0, 1fr);
-    gap: 10px;
+    gap: 34px;
     min-height: 0;
   }
 
@@ -892,7 +1135,13 @@ button {
     justify-self: center;
     align-self: center;
     margin: 0 0 4px;
-    padding: 8px 8px 23px;
+    padding: 8px 8px 10px;
+  }
+
+  .journal-mascot-sticker {
+    left: -36px;
+    bottom: -18px;
+    width: 76px;
   }
 
   .about-photo-placeholder {
@@ -905,24 +1154,39 @@ button {
     grid-row: 2;
     width: 100%;
     align-self: stretch;
+    overflow: visible;
     padding: 20px 14px 12px;
   }
 
+  .bio-character-sticker {
+    top: -28px;
+    right: -8px;
+    width: 74px;
+  }
+
+  .bio-note::before {
+    top: -14px;
+    width: 148px;
+  }
+
   .about-bio h3 {
-    font-size: 17px;
+    padding-right: 0;
+    font-size: clamp(20px, 5vw, 26px);
     line-height: 1.3;
     margin-bottom: 6px;
   }
 
   .about-bio {
-    height: auto;
-    gap: 5px;
+    height: 100%;
+    max-height: 100%;
+    justify-content: flex-start;
+    gap: 10px;
   }
 
   .about-bio p {
     margin-bottom: 6px;
-    font-size: clamp(10px, 2.8vw, 12px);
-    line-height: clamp(17px, 2.7vh, 22px);
+    font-size: clamp(14px, 3.6vw, 17px);
+    line-height: 1.5;
   }
 
   .actions {
@@ -931,6 +1195,30 @@ button {
 
   .action {
     padding: 9px 12px;
+  }
+}
+
+@media (min-width: 651px) {
+  .about-panel.show .bio-note {
+    animation-delay: 1.25s;
+  }
+
+  .bio-strawberry-sticker {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    top: 4.5%;
+    right: 8.5%;
+    width: clamp(174px, 15vw, 204px);
+    height: auto;
+    filter: drop-shadow(0 3px 2px #57364b44);
+    transform: rotate(-5deg);
+    pointer-events: none;
+  }
+
+  .about-panel.show .bio-strawberry-sticker {
+    opacity: 0;
+    animation: scrapbook-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 1.25s both;
   }
 }
 
@@ -946,7 +1234,7 @@ button {
   }
 
   .notebook-body {
-    gap: 8px 36px;
+    gap: 8px 40px;
     padding-top: 4px;
   }
 
@@ -979,6 +1267,20 @@ button {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+    animation: none !important;
     scroll-behavior: auto !important;
+  }
+
+  .about-title-text {
+    clip-path: none !important;
+  }
+
+  .notebook-sparkle {
+    opacity: 1 !important;
+  }
+
+  .about-polaroid,
+  .bio-note {
+    opacity: 1 !important;
   }
 }
