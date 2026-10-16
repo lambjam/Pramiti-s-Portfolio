@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import pramitiPhoto from './assets/pramiti-photo.png';
 import journalCharacterSticker from './assets/journal-character-sticker.png';
 import strawberrySticker from './assets/strawberry-sticker.png';
+import linkUpLogo from './assets/link-up-logo.png';
+import reFitSticker from './assets/re-fit-sticker.png';
 
 const paperContent = {
   achievements: {
@@ -50,15 +52,20 @@ const papers = [
 
 function App() {
   const [folderOpen, setFolderOpen] = useState(false);
+  const [ideaLabOpen, setIdeaLabOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [activePage, setActivePage] = useState(null);
 
   const setOpen = (isOpen) => {
     setFolderOpen(isOpen);
+    if (!isOpen) setIdeaLabOpen(false);
   };
 
   const toggleFolder = () => {
-    setFolderOpen((open) => !open);
+    setFolderOpen((open) => {
+      if (open) setIdeaLabOpen(false);
+      return !open;
+    });
   };
 
   const openAbout = () => {
@@ -67,6 +74,11 @@ function App() {
   };
 
   const openSection = (page) => {
+    if (page === 'projects') {
+      setIdeaLabOpen(true);
+      return;
+    }
+
     setActivePage(page);
     setAboutOpen(true);
     setFolderOpen(true);
@@ -93,8 +105,37 @@ function App() {
         'This is my corner of the internet: part portfolio, part scrapbook, and always a work in progress. Replace this with your own story when you\'re ready.',
       ];
 
+  useEffect(() => {
+    if (!ideaLabOpen) return undefined;
+
+    const notebooks = document.querySelectorAll('.idea-notebook');
+
+    if (!('IntersectionObserver' in window)) {
+      notebooks.forEach((notebook) => notebook.classList.add('is-visible'));
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 },
+    );
+
+    notebooks.forEach((notebook) => observer.observe(notebook));
+    return () => observer.disconnect();
+  }, [ideaLabOpen]);
+
   return (
-    <main className={`site ${folderOpen ? 'open' : ''}`} aria-label="Interactive scrapbook portfolio">
+    <main
+      className={`site ${folderOpen ? 'open' : ''}${ideaLabOpen ? ' idea-lab-active' : ''}`}
+      aria-label="Interactive scrapbook portfolio"
+    >
       <div className="sky" />
       <div className="grass" />
 
@@ -169,6 +210,32 @@ function App() {
         <span className="sticker heart">💗</span>
         <span className="sticker flower">🌼</span>
       </div>
+
+      {ideaLabOpen && (
+        <div className="idea-lab-view" aria-label="Idea lab notebook pages">
+          <button
+            className="idea-lab-back"
+            type="button"
+            onClick={() => setIdeaLabOpen(false)}
+          >
+            ← Back to sections
+          </button>
+          <article className="idea-notebook idea-notebook-linkup">
+            <span className="idea-notebook-label">PROJECT 1</span>
+            <h2>Link-Up</h2>
+            <span className="idea-linkup-status">(complete!)</span>
+            <img className="idea-linkup-logo" src={linkUpLogo} alt="Link-Up logo" />
+            <span className="idea-linkup-action">click here!</span>
+          </article>
+          <article className="idea-notebook idea-notebook-linkup">
+            <span className="idea-notebook-label">PROJECT 2</span>
+            <h2>Re-fit</h2>
+            <span className="idea-linkup-status">(in progress!)</span>
+            <img className="idea-linkup-logo idea-refit-logo" src={reFitSticker} alt="Meet Re-fit sticker" />
+            <span className="idea-linkup-action">click here!</span>
+          </article>
+        </div>
+      )}
 
       <div className="note">ideas in the making ✎</div>
 

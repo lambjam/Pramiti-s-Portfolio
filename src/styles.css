@@ -485,6 +485,115 @@ button {
   transform: translate(-50%, -50%) rotate(5deg);
 }
 
+.idea-lab-active .papers > .paper {
+  display: none;
+}
+
+.idea-lab-view {
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  width: min(980px, calc(100vw - 48px));
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 26px;
+  padding-top: 52px;
+  transform: translate(-50%, -50%);
+}
+
+.idea-lab-back {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid #ffffffa8;
+  border-radius: 30px;
+  padding: 10px 16px;
+  background: #211b26d9;
+  color: #fff;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.idea-lab-back:hover {
+  background: #693354;
+}
+
+.idea-lab-active .note,
+.idea-lab-active .contact-card {
+  display: none;
+}
+
+.idea-notebook {
+  min-width: 0;
+  height: clamp(330px, 48vh, 460px);
+  padding: 34px 28px 24px 64px;
+  border: 1px solid #ded6c9;
+  border-radius: 3px;
+  box-shadow: 0 8px 18px #2c152a44;
+  background:
+    linear-gradient(90deg, transparent 0 47px, #e8a8bb 48px 49px, transparent 50px),
+    repeating-linear-gradient(180deg, #fffdf8 0 37px, #badce8 38px 39px);
+}
+
+.idea-notebook-label {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 12px;
+  background: #f7d9e6;
+  color: #7c2c50;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.idea-notebook h2 {
+  margin: 15px 0 0;
+  color: #7c2c50;
+  font: italic bold clamp(24px, 3vw, 36px) Georgia, serif;
+}
+
+.idea-notebook-linkup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.idea-notebook-linkup h2 {
+  width: 100%;
+  margin: 12px 0 8px;
+  font-size: clamp(34px, 4vw, 48px);
+  text-align: center;
+}
+
+.idea-linkup-status {
+  margin-top: -6px;
+  color: #60243e;
+  font: 400 11px/1.4 "Lexend Deca", Arial, Helvetica, sans-serif;
+}
+
+.idea-linkup-logo {
+  display: block;
+  width: min(63%, 240px);
+  height: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.idea-refit-logo {
+  width: min(82%, 320px);
+}
+
+.idea-linkup-action {
+  margin: 0 0 4px;
+  color: #60243e;
+  font: 500 17px/1.4 "Lexend Deca", Arial, Helvetica, sans-serif;
+  text-align: center;
+}
+
 .site.open .folder {
   transform: translateY(18px) scale(0.98);
   filter: saturate(0.85);
@@ -743,14 +852,14 @@ button {
   margin: 0 0 8px;
   padding-right: clamp(88px, 9vw, 124px);
   color: #7c2c50;
-  font: 600 clamp(30px, 2.6vw, 40px)/1.3 "Lexend Deca", Arial, Helvetica, sans-serif;
+  font: 600 clamp(24px, 2.6vw, 50px)/1.3 "Lexend Deca", Arial, Helvetica, sans-serif;
 }
 
 .about-bio p {
   max-width: none;
   margin: 0;
   color: var(--ink);
-  font: 400 clamp(18px, 1.5vw, 24px)/1.55 "Lexend Deca", Arial, Helvetica, sans-serif;
+  font: 400 clamp(14px, 1.5vw, 30px)/1.55 "Lexend Deca", Arial, Helvetica, sans-serif;
 }
 
 .about-card h2 {
@@ -1004,6 +1113,10 @@ button {
     min-height: 1370px;
   }
 
+  .site.idea-lab-active {
+    min-height: 1600px;
+  }
+
   .topbar {
     top: 12px;
     font-size: 10px;
@@ -1071,6 +1184,46 @@ button {
     width: calc(100vw - 28px);
     display: grid;
     gap: 12px;
+  }
+
+  .idea-lab-view {
+    top: 660px;
+    left: 14px;
+    right: 14px;
+    width: auto;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding-top: 48px;
+    transform: none;
+  }
+
+  .idea-lab-back {
+    font-size: 12px;
+    padding: 9px 13px;
+  }
+
+  .idea-notebook {
+    height: 290px;
+    padding: 28px 20px 20px 48px;
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    background:
+      linear-gradient(90deg, transparent 0 34px, #e8a8bb 35px 36px, transparent 37px),
+      repeating-linear-gradient(180deg, #fffdf8 0 33px, #badce8 34px 35px);
+  }
+
+  .idea-notebook.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  .idea-notebook-label {
+    font-size: 10px;
+  }
+
+  .idea-notebook h2 {
+    font-size: 25px;
   }
 
   .site.open .paper {
@@ -1215,7 +1368,7 @@ button {
   }
 
   .notebook-card h2 {
-    font-size: clamp(34px, 6vw, 72px);
+    font-size: clamp(34px, 6vw, 100px);
     line-height: 74px;
     padding-bottom: 0;
     margin-bottom: 12px;
@@ -1252,6 +1405,108 @@ button {
 }
 
 @media (min-width: 651px) and (max-height: 700px) {
+  .topbar {
+    top: 20px;
+    font-size: 13px;
+  }
+
+  .topbar span {
+    padding: 7px 10px;
+  }
+
+  .folder-wrap {
+    width: min(620px, 82%);
+  }
+
+  .folder {
+    padding: 24px;
+  }
+
+  .folder-kicker {
+    font-size: 19px;
+    margin-bottom: 6px;
+  }
+
+  .folder-title {
+    font-size: clamp(58px, 6.2vw, 84px);
+  }
+
+  .folder-sub {
+    margin-top: 18px;
+    font-size: 13px;
+  }
+
+  .hint {
+    margin-top: 21px;
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+
+  .polaroid {
+    top: -42px;
+    width: 140px;
+    padding: 9px 9px 26px;
+  }
+
+  .home-photo-window {
+    height: 118px;
+  }
+
+  .photo-caption {
+    bottom: 6px;
+    font-size: 12px;
+  }
+
+  .polaroid-callout {
+    top: -12px;
+    width: 120px;
+    font-size: 15px;
+  }
+
+  .polaroid-callout svg {
+    width: 120px;
+    height: 60px;
+  }
+
+  .polaroid-callout text {
+    font-size: 14px;
+  }
+
+  .sticker {
+    font-size: 38px;
+  }
+
+  .bow {
+    top: -22px;
+    font-size: 69px;
+  }
+
+  .actions {
+    bottom: 15px;
+    gap: 8px;
+  }
+
+  .action {
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+
+  .note {
+    bottom: 58px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .contact-card {
+    bottom: 15px;
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+
+  .contact-card strong {
+    font-size: 10px;
+  }
+
   .notebook-card {
     height: 100%;
     padding-top: 18px;
@@ -1283,12 +1538,12 @@ button {
 
   .about-bio p {
     margin-bottom: 0;
-    font-size: 16px;
+    font-size: clamp(17px, 1.35vw, 22px);
     line-height: 1.45;
   }
 
   .about-bio h3 {
-    font-size: 23px;
+    font-size: clamp(26px, 2vw, 32px);
     line-height: 1.35;
   }
 }
