@@ -533,6 +533,7 @@ button {
   border: 1px solid #ded6c9;
   border-radius: 3px;
   box-shadow: 0 8px 18px #2c152a44;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   background:
     linear-gradient(90deg, transparent 0 47px, #e8a8bb 48px 49px, transparent 50px),
     repeating-linear-gradient(180deg, #fffdf8 0 37px, #badce8 38px 39px);
@@ -592,6 +593,26 @@ button {
   color: #60243e;
   font: 500 17px/1.4 "Lexend Deca", Arial, Helvetica, sans-serif;
   text-align: center;
+  transform: translateY(3px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .site.open .paper:nth-child(1):hover {
+    transform: translate(-50%, calc(-50% - 8px)) rotate(-5deg);
+  }
+
+  .site.open .paper:nth-child(2):hover {
+    transform: translate(-50%, calc(-50% - 8px)) rotate(2deg);
+  }
+
+  .site.open .paper:nth-child(3):hover {
+    transform: translate(-50%, calc(-50% - 8px)) rotate(5deg);
+  }
+
+  .idea-notebook:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 24px #2c152a55;
+  }
 }
 
 .site.open .folder {
