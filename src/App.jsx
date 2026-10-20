@@ -1,9 +1,17 @@
 import { useEffect, useState } from 'react';
 import pramitiPhoto from './assets/pramiti-photo.png';
 import journalCharacterSticker from './assets/journal-character-sticker.png';
+import doggoSticker from './assets/doggo-sticker.png';
 import strawberrySticker from './assets/strawberry-sticker.png';
 import linkUpLogo from './assets/link-up-logo.png';
 import reFitSticker from './assets/re-fit-sticker.png';
+import refitResearchProgress from './assets/refit-research-progress.png';
+import refitSocialInstagram from './assets/refit-social-instagram.png';
+import refitSocialTiktok from './assets/refit-social-tiktok.png';
+import refitDonationPoster from './assets/refit-donation-poster.png';
+import refitComingSoon from './assets/refit-coming-soon.png';
+import refitCampaignPoster from './assets/refit-campaign-poster.png';
+import refitWardrobeNotifications from './assets/refit-wardrobe-notifications.png';
 
 const paperContent = {
   achievements: {
@@ -55,6 +63,7 @@ function App() {
   const [ideaLabOpen, setIdeaLabOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [activePage, setActivePage] = useState(null);
+  const [activeProject, setActiveProject] = useState(null);
 
   const setOpen = (isOpen) => {
     setFolderOpen(isOpen);
@@ -70,6 +79,13 @@ function App() {
 
   const openAbout = () => {
     setActivePage(null);
+    setActiveProject(null);
+    setAboutOpen(true);
+  };
+
+  const openProject = (project) => {
+    setActivePage(null);
+    setActiveProject(project);
     setAboutOpen(true);
   };
 
@@ -87,6 +103,7 @@ function App() {
   const closePanel = () => {
     setAboutOpen(false);
     setActivePage(null);
+    setActiveProject(null);
   };
 
   const reset = () => {
@@ -220,20 +237,30 @@ function App() {
           >
             ← Back to sections
           </button>
-          <article className="idea-notebook idea-notebook-linkup">
+          <button
+            className="idea-notebook idea-notebook-linkup"
+            type="button"
+            aria-label="Open Link-Up project details"
+            onClick={() => openProject('linkup')}
+          >
             <span className="idea-notebook-label">PROJECT 1</span>
             <h2>Link-Up</h2>
             <span className="idea-linkup-status">(complete!)</span>
             <img className="idea-linkup-logo" src={linkUpLogo} alt="Link-Up logo" />
             <span className="idea-linkup-action">click here!</span>
-          </article>
-          <article className="idea-notebook idea-notebook-linkup">
+          </button>
+          <button
+            className="idea-notebook idea-notebook-linkup"
+            type="button"
+            aria-label="Open Re-fit project details"
+            onClick={() => openProject('refit')}
+          >
             <span className="idea-notebook-label">PROJECT 2</span>
             <h2>Re-fit</h2>
             <span className="idea-linkup-status">(in progress!)</span>
             <img className="idea-linkup-logo idea-refit-logo" src={reFitSticker} alt="Meet Re-fit sticker" />
             <span className="idea-linkup-action">click here!</span>
-          </article>
+          </button>
         </div>
       )}
 
@@ -259,14 +286,142 @@ function App() {
         </button>
       </div>
 
-      <section className={`about-panel ${aboutOpen ? 'show' : ''}`} role="dialog" aria-modal="true" aria-labelledby="aboutTitle" onClick={(event) => { if (event.target === event.currentTarget) closePanel(); }}>
-        <div className={`about-card${activePage ? '' : ' notebook-card'}`}>
+      <section className={`about-panel ${aboutOpen || activeProject ? 'show' : ''}`} role="dialog" aria-modal="true" aria-labelledby="aboutTitle" onClick={(event) => { if (event.target === event.currentTarget) closePanel(); }}>
+        <div className={`about-card${activePage || (!activeProject && !aboutOpen) ? '' : ' notebook-card'}${activeProject === 'refit' ? ' refit-project-card' : ''}`}>
           <button type="button" className="close" aria-label="Close panel" onClick={closePanel}>
             <svg className="close-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M7 7l10 10M17 7 7 17" />
             </svg>
           </button>
-          {activePage ? (
+          {activeProject ? (
+            <>
+              {activeProject === 'refit-progress' ? (
+                <>
+                  <h2 id="aboutTitle">
+                    <span key={activeProject} className="about-title-text project-page-title refit-progress-title">
+                      Re-fit Progress<span className="project-title-plant" aria-hidden="true">🪴</span>
+                    </span>
+                  </h2>
+                  <button
+                    className="project-page-back"
+                    type="button"
+                    onClick={() => setActiveProject('refit')}
+                  >
+                    ← Back to Re-fit
+                  </button>
+                  <div className="refit-progress-canvas" aria-label="Re-fit progress scrapbook page">
+                    <div className="refit-social-photos">
+                      <div className="refit-social-item">
+                        <figure className="refit-progress-photo refit-social-photo">
+                          <span className="refit-progress-tape" aria-hidden="true" />
+                          <img src={refitSocialInstagram} alt="Re-fit Instagram profile and clothing posts" />
+                        </figure>
+                        <h3 className="refit-progress-label">social media marketing</h3>
+                      </div>
+                      <div className="refit-social-item">
+                        <figure className="refit-progress-photo refit-social-photo">
+                          <span className="refit-progress-tape" aria-hidden="true" />
+                          <img src={refitSocialTiktok} alt="Re-fit TikTok profile and clothing posts" />
+                        </figure>
+                      </div>
+                    </div>
+                    <div className="refit-research-item">
+                      <figure className="refit-progress-photo refit-research-photo">
+                        <span className="refit-progress-tape" aria-hidden="true" />
+                        <img src={refitResearchProgress} alt="Re-fit research folder with project documents" />
+                      </figure>
+                      <h3 className="refit-progress-label">research progress</h3>
+                    </div>
+                    <aside className="refit-progress-collage refit-progress-collage--left" aria-label="More Re-fit project posters">
+                      {[
+                        { image: refitDonationPoster, alt: 'Re-fit clothing donation poster' },
+                        { image: refitCampaignPoster, alt: 'Re-fit clothing use campaign poster' },
+                      ].map(({ image, alt }) => (
+                        <figure className="refit-progress-photo refit-extra-photo" key={image}>
+                          <span className="refit-progress-tape" aria-hidden="true" />
+                          <img src={image} alt={alt} />
+                        </figure>
+                      ))}
+                    </aside>
+                    <aside className="refit-progress-collage refit-progress-collage--right" aria-label="More Re-fit project posters">
+                      {[
+                        { image: refitComingSoon, alt: 'Re-fit coming soon poster' },
+                        { image: refitWardrobeNotifications, alt: 'Re-fit wardrobe reminder concept' },
+                      ].map(({ image, alt }) => (
+                        <figure className="refit-progress-photo refit-extra-photo" key={image}>
+                          <span className="refit-progress-tape" aria-hidden="true" />
+                          <img src={image} alt={alt} />
+                        </figure>
+                      ))}
+                    </aside>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2 id="aboutTitle">
+                    <span key={activeProject} className="about-title-text project-page-title">
+                      {activeProject === 'linkup' ? 'Link-Up' : <>Re-fit<span className="project-title-plant" aria-hidden="true">🪴</span></>}
+                    </span>
+                  </h2>
+                  {activeProject === 'refit' && (
+                    <button
+                      className="project-next-section"
+                      type="button"
+                      onClick={() => setActiveProject('refit-progress')}
+                    >
+                      Next section →
+                    </button>
+                  )}
+                  {activeProject === 'refit' && (
+                    <div className="refit-plant-stickers" aria-hidden="true">
+                      <span className="refit-plant-sticker refit-plant-middle">🌿</span>
+                      <span className="refit-plant-sticker refit-plant-right">🌸</span>
+                    </div>
+                  )}
+                  <div className="notebook-body project-notebook-body">
+                    <div className={`about-polaroid project-polaroid${activeProject === 'refit' ? ' refit-polaroid' : ''}`}>
+                      <span className="polaroid-tape" aria-hidden="true" />
+                      <img
+                        className="about-photo-placeholder project-image"
+                        src={activeProject === 'linkup' ? linkUpLogo : reFitSticker}
+                        alt={activeProject === 'linkup' ? 'Link-Up project logo' : 'Re-fit project sticker'}
+                      />
+                    </div>
+                    <div className="project-note-wrap">
+                      {activeProject === 'refit' && (
+                        <img className="project-dog-sticker" src={doggoSticker} alt="" aria-hidden="true" />
+                      )}
+                      <div className="bio-note project-note">
+                        <div className="about-bio">
+                          <h3>{activeProject === 'linkup' ? 'Link-Up ♡' : 'Re-fit ♡'}</h3>
+                          {activeProject === 'linkup' ? (
+                            <>
+                              <p>A completed project from my idea lab.</p>
+                              <p>
+                                This page is a little look at the project, the ideas behind it, and the work that brought it to life.
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <p>
+                                Re-fit is a sustainability-focused business idea I&apos;m developing with my best friend, Satvik. We&apos;re exploring how AI could help people rethink their wardrobes by identifying clothes they rarely wear and recognizing similar items they already own.
+                              </p>
+                              <p>
+                                But Re-fit goes beyond organizing clothes! The idea is to also help users find nearby donation centers, making it easier to give unwanted clothing a second life instead of letting it go to waste.
+                              </p>
+                              <p>
+                                We&apos;re currently developing the concept and working toward submitting it to the Diamond Challenge. I&apos;m excited to see how we can turn an idea we&apos;re passionate about into something that could make a real difference. 🌱
+                              </p>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+            </>
+          ) : activePage ? (
             <>
               <h2 id="aboutTitle">{panelTitle}</h2>
               {panelParagraphs.map((text) => (
