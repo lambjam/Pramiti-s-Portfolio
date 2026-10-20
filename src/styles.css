@@ -343,6 +343,14 @@ button {
   filter: drop-shadow(0 2px 2px #57364b99);
 }
 
+.polaroid-callout .mobile-arrow-path {
+  display: none;
+}
+
+.polaroid-callout .mobile-callout-text {
+  display: none;
+}
+
 .sticker {
   position: absolute;
   z-index: 6;
@@ -485,7 +493,7 @@ button {
   transform: translate(-50%, -50%) rotate(5deg);
 }
 
-.idea-lab-active .papers > .paper {
+.site.idea-lab-active .papers > .paper {
   display: none;
 }
 
@@ -541,6 +549,14 @@ button {
   background:
     linear-gradient(90deg, transparent 0 47px, #e8a8bb 48px 49px, transparent 50px),
     repeating-linear-gradient(180deg, #fffdf8 0 37px, #badce8 38px 39px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .idea-notebook.is-visible:hover {
+    z-index: 1;
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 14px 24px #2c152a55;
+  }
 }
 
 .idea-notebook-label {
@@ -1594,11 +1610,13 @@ button {
   }
 
   .site.open {
-    min-height: 1370px;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .site.idea-lab-active {
-    min-height: 1600px;
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   .topbar {
@@ -1617,7 +1635,7 @@ button {
   }
 
   .site.open .folder-wrap {
-    top: 310px;
+    top: 48%;
   }
 
   .polaroid {
@@ -1625,6 +1643,13 @@ button {
     right: -5%;
     top: -47px;
     padding: 6px 6px 23px;
+  }
+
+  .photo-caption {
+    bottom: 6px;
+    font-size: 12px;
+    line-height: 1;
+    white-space: nowrap;
   }
 
   .polaroid-callout {
@@ -1639,6 +1664,22 @@ button {
     height: 55px;
     margin-left: 0;
     margin-top: -6px;
+  }
+
+  .polaroid-callout .arrow-path:not(.mobile-arrow-path) {
+    display: none;
+  }
+
+  .polaroid-callout .mobile-arrow-path {
+    display: block;
+  }
+
+  .polaroid-callout .desktop-callout-text {
+    display: none;
+  }
+
+  .polaroid-callout .mobile-callout-text {
+    display: inline;
   }
 
   .home-photo-window {
@@ -1663,22 +1704,25 @@ button {
   }
 
   .site.open .papers {
-    top: calc(100% + 20px);
+    top: 8px;
     left: 50%;
-    width: calc(100vw - 28px);
+    width: calc(100% - 16px);
+    height: calc(100% - 16px);
     display: grid;
-    gap: 12px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+    transform: translateX(-50%);
   }
 
   .idea-lab-view {
-    top: 660px;
-    left: 14px;
-    right: 14px;
-    width: auto;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px;
-    padding-top: 48px;
-    transform: none;
+    top: 48%;
+    left: 50%;
+    width: min(82%, 340px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+    padding-top: 44px;
+    transform: translate(-50%, -50%);
   }
 
   .idea-lab-back {
@@ -1687,8 +1731,8 @@ button {
   }
 
   .idea-notebook {
-    height: 290px;
-    padding: 28px 20px 20px 48px;
+    height: clamp(230px, 31vh, 260px);
+    padding: 20px 8px 12px 24px;
     opacity: 0;
     transform: translateY(24px) scale(0.98);
     transition: opacity 0.45s ease, transform 0.45s ease;
@@ -1707,26 +1751,80 @@ button {
   }
 
   .idea-notebook h2 {
-    font-size: 25px;
+    margin-top: 10px;
+    font-size: 21px;
+  }
+
+  .idea-linkup-status {
+    font-size: 10px;
+  }
+
+  .idea-linkup-logo {
+    width: min(62%, 100px);
+  }
+
+  .idea-linkup-action {
+    font-size: 13px;
   }
 
   .site.open .paper {
     position: relative;
     left: auto;
     top: auto;
-    min-height: 165px;
+    display: grid;
+    min-height: 0;
+    height: 100%;
+    grid-template-columns: 23px minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    align-content: center;
+    align-items: center;
+    column-gap: 5px;
+    row-gap: 2px;
+    padding: 11px 9px 5px;
     transform: none;
   }
 
+  .site.open .paper .mini {
+    grid-column: 1;
+    grid-row: 1;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .site.open .paper h3 {
+    grid-column: 2;
+    grid-row: 1;
+    margin: 0;
+    font-size: 15px;
+  }
+
+  .site.open .paper p {
+    grid-column: 1 / -1;
+    font-size: 10px;
+    line-height: 1.25;
+  }
+
+  .site.open .paper p:last-child {
+    margin-top: 2px !important;
+    font-size: 9px !important;
+  }
+
   .site.open .paper:nth-child(1) {
+    top: auto;
+    left: auto;
     transform: rotate(-1deg);
   }
 
   .site.open .paper:nth-child(2) {
+    top: auto;
+    left: auto;
     transform: rotate(0.5deg);
   }
 
   .site.open .paper:nth-child(3) {
+    top: auto;
+    left: auto;
     transform: rotate(1deg);
   }
 

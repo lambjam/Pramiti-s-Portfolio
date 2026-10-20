@@ -215,12 +215,15 @@ function App() {
           <svg viewBox="0 0 160 80" focusable="false">
             <defs>
               <path id="callout-text-curve" d="M27 15C66 -1 111 13 148 43" />
-            </defs>
-            <text>
-              <textPath href="#callout-text-curve" startOffset="50%" textAnchor="middle">click here</textPath>
-            </text>
-            <path className="arrow-path" d="M155 68C115 31 70 16 22 32m0 0 15-13m-15 13 18 9" />
-          </svg>
+              <path id="mobile-callout-text-curve" d="M12 52C40 32 67 35 95 55" />
+              </defs>
+              <text>
+                <textPath className="desktop-callout-text" href="#callout-text-curve" startOffset="50%" textAnchor="middle">click here</textPath>
+                <textPath className="mobile-callout-text" href="#mobile-callout-text-curve" startOffset="50%" textAnchor="middle">click here</textPath>
+              </text>
+              <path className="arrow-path" d="M155 68C115 31 70 16 22 32m0 0 15-13m-15 13 18 9" />
+              <path className="arrow-path mobile-arrow-path" d="M2 72C34 49 70 55 104 76m0 0-14-3m14 3-7-12" />
+            </svg>
         </div>
 
         <span className="sticker bow" aria-hidden="true">💕</span>
