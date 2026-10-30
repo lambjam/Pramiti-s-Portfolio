@@ -14,6 +14,16 @@ import refitComingSoon from './assets/refit-coming-soon.png';
 import refitCampaignPoster from './assets/refit-campaign-poster.png';
 import refitWardrobeNotifications from './assets/refit-wardrobe-notifications.png';
 
+const giftPhotos = import.meta.glob('./assets/Gifts/*.png', { eager: true, query: '?url', import: 'default' });
+const giftVideos = import.meta.glob('./assets/Gifts/*.mp4', { eager: true, query: '?url', import: 'default' });
+const gifts = Object.entries(giftPhotos)
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .map(([path, photo]) => ({
+    name: path.split('/').pop().replace('.png', ''),
+    photo,
+    video: giftVideos[path.replace('.png', ' Video.mp4')],
+  }));
+
 const paperContent = {
   achievements: {
     title: 'The plot so far',
@@ -65,6 +75,17 @@ function App() {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [activePage, setActivePage] = useState(null);
   const [activeProject, setActiveProject] = useState(null);
+  const [activeHobby, setActiveHobby] = useState(null);
+  const [selectedGift, setSelectedGift] = useState(null);
+
+  useEffect(() => {
+    if (!selectedGift) return undefined;
+    const handleKey = (event) => {
+      if (event.key === 'Escape') setSelectedGift(null);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [selectedGift]);
 
   const setOpen = (isOpen) => {
     setFolderOpen(isOpen);
@@ -91,8 +112,8 @@ function App() {
   };
 
   const openSection = (page) => {
-    if (page === 'projects') {
-      setIdeaLabOpen(true);
+    if (page === 'projects' || page === 'hobbies') {
+      setIdeaLabOpen(page);
       return;
     }
 
@@ -102,6 +123,7 @@ function App() {
   };
 
   const closePanel = () => {
+    setActiveHobby(null);
     setAboutOpen(false);
     setActivePage(null);
     setActiveProject(null);
@@ -233,7 +255,7 @@ function App() {
       </div>
 
       {ideaLabOpen && (
-        <div className="idea-lab-view" aria-label="Idea lab notebook pages">
+        <div className={`idea-lab-view${ideaLabOpen === 'hobbies' ? ' things-love-view' : ''}`} aria-label={ideaLabOpen === 'hobbies' ? 'Things I love pages' : 'Idea lab notebook pages'}>
           <button
             className="idea-lab-back"
             type="button"
@@ -241,6 +263,23 @@ function App() {
           >
             ← Back to sections
           </button>
+          {ideaLabOpen === 'hobbies' ? (
+            <>
+              <button className="idea-notebook love-paper" type="button" onClick={() => setActiveHobby('crafts')}>
+                <h2>crafts made by me</h2>
+                <span className="idea-linkup-action">click here! ↗</span>
+              </button>
+              <article className="idea-notebook love-paper love-intro">
+                <h2>Things I love</h2>
+                <p>Outside of my projects, I love listening to music, doing arts and crafts, and making handmade gifts for my friends. Crafting has always been one of my favorite ways to express my creativity, as I love taking simple materials and transforming them into something unique and meaningful. Whether I'm experimenting with new ideas or personalizing gifts for the people I care about, I enjoy using my imagination to create something special.</p>
+              </article>
+              <button className="idea-notebook love-paper" type="button" onClick={() => setActiveHobby('gifts')}>
+                <h2>gifts I made for my friends</h2>
+                <span className="idea-linkup-action">click here! ↗</span>
+              </button>
+            </>
+          ) : (
+            <>
           <button
             className="idea-notebook idea-notebook-linkup"
             type="button"
@@ -265,6 +304,48 @@ function App() {
             <img className="idea-linkup-logo idea-refit-logo" src={reFitSticker} alt="Meet Re-fit sticker" />
             <span className="idea-linkup-action">click here!</span>
           </button>
+            </>
+          )}
+        </div>
+      )}
+
+      {activeHobby && (
+        <section className="about-panel show" role="dialog" aria-modal="true" aria-labelledby="hobbyTitle" onClick={(event) => { if (event.target === event.currentTarget) setActiveHobby(null); }}>
+          <div className="about-card notebook-card hobby-notecard" key={activeHobby}>
+            <button type="button" className="close" aria-label="Close panel" onClick={() => setActiveHobby(null)}>×</button>
+            <h2 id="hobbyTitle"><span className="about-title-text project-page-title">{activeHobby === 'crafts' ? 'crafts made by me' : 'gifts I made for my friends'}</span></h2>
+            {activeHobby === 'gifts' && (
+              <div className="gift-gallery" aria-label="Handmade gifts">
+                {gifts.map((gift, index) => (
+                  <figure className="gift-polaroid" key={gift.name} style={{ '--gift-delay': `${1.4 + index * 0.09}s` }}>
+                    <div className="gift-photo-frame">
+                    <span className="gift-tape" aria-hidden="true" />
+                    {gift.video ? (
+                      <button type="button" className="gift-video-trigger" aria-label={`Play video of ${gift.name}`} onClick={() => setSelectedGift(gift)}>
+                        <img src={gift.photo} alt={`${gift.name}, handmade for my friends`} />
+                        <span className="gift-play-label">▶ watch video</span>
+                      </button>
+                    ) : (
+                      <img src={gift.photo} alt={`${gift.name}, handmade for my friends`} loading="lazy" />
+                    )}
+                    </div>
+                  </figure>
+                ))}
+              </div>
+            )}
+            <button type="button" className="hobby-back" onClick={() => setActiveHobby(null)}>← Back to Things I love</button>
+          </div>
+        </section>
+      )}
+
+      {selectedGift && (
+        <div className="gift-video-overlay" role="dialog" aria-modal="true" aria-label={`Video of ${selectedGift.name}`} onClick={(event) => { if (event.target === event.currentTarget) setSelectedGift(null); }}>
+          <div className="gift-video-player">
+            <button className="gift-video-close" type="button" autoFocus onClick={() => setSelectedGift(null)}>Close video ×</button>
+            <video key={selectedGift.video} src={selectedGift.video} poster={selectedGift.photo} controls autoPlay playsInline preload="metadata">
+              Your browser does not support this video. <a href={selectedGift.video}>Download video</a>
+            </video>
+          </div>
         </div>
       )}
 
@@ -327,7 +408,13 @@ function App() {
                           <img src={refitSocialTiktok} alt="Re-fit TikTok profile and clothing posts" />
                         </figure>
                       </div>
-                      <h3 className="refit-progress-label refit-social-label">social media marketing</h3>
+                      <div className="refit-progress-label refit-social-label">
+                        <h3 className="refit-social-heading">social media marketing</h3>
+                        <div className="refit-social-links">
+                          <a href="https://www.instagram.com/refit_.official/" target="_blank" rel="noopener noreferrer">instagram</a>
+                          <a href="https://www.tiktok.com/@refitoffical" target="_blank" rel="noopener noreferrer">tik tok</a>
+                        </div>
+                      </div>
                     </div>
                     <div className="refit-research-item">
                       <figure className="refit-progress-photo refit-research-photo">
@@ -341,7 +428,7 @@ function App() {
                         <span className="refit-progress-tape" aria-hidden="true" />
                         <img src={refitWebsite} alt="Re-fit website artwork" />
                       </figure>
-                      <h3 className="refit-progress-label">refit website, designed by me :)</h3>
+                      <h3 className="refit-progress-label"><span className="refit-website-link-text">refit website</span>, designed by me :)</h3>
                     </a>
                     <aside className="refit-progress-collage refit-progress-collage--left" aria-label="More Re-fit project posters">
                       {[
@@ -390,15 +477,38 @@ function App() {
                     </div>
                   )}
                   <div className="notebook-body project-notebook-body">
-                    <div className={`about-polaroid project-polaroid${activeProject === 'refit' ? ' refit-polaroid' : ''}`}>
+                    <div className={`about-polaroid project-polaroid${activeProject === 'refit' ? ' refit-polaroid' : ' linkup-polaroid'}`}>
                       <span className="polaroid-tape" aria-hidden="true" />
+                      {activeProject === 'linkup' && (
+                        <>
+                          <span className="linkup-decoration linkup-heart" aria-hidden="true">💗</span>
+                          <span className="linkup-decoration linkup-daisy" aria-hidden="true">🌼</span>
+                        </>
+                      )}
                       <img
                         className="about-photo-placeholder project-image"
                         src={activeProject === 'linkup' ? linkUpLogo : reFitSticker}
                         alt={activeProject === 'linkup' ? 'Link-Up project logo' : 'Re-fit project sticker'}
                       />
+                      {activeProject === 'linkup' && (
+                        <a
+                          className="linkup-app-store-label"
+                          href="https://apps.apple.com/us/app/linkup-in-imessage/id6762589212"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          link to app on app store!
+                        </a>
+                      )}
                     </div>
                     <div className="project-note-wrap">
+                      {activeProject === 'linkup' && (
+                        <>
+                          <span className="linkup-decoration linkup-sparkles" aria-hidden="true">✨</span>
+                          <span className="linkup-decoration linkup-blossom" aria-hidden="true">🌸</span>
+                          <span className="linkup-decoration linkup-leaves" aria-hidden="true">🌿</span>
+                        </>
+                      )}
                       {activeProject === 'refit' && (
                         <img className="project-dog-sticker" src={doggoSticker} alt="" aria-hidden="true" />
                       )}
@@ -407,9 +517,14 @@ function App() {
                           <h3>{activeProject === 'linkup' ? 'Link-Up ♡' : 'Re-fit ♡'}</h3>
                           {activeProject === 'linkup' ? (
                             <>
-                              <p>A completed project from my idea lab.</p>
                               <p>
-                                This page is a little look at the project, the ideas behind it, and the work that brought it to life.
+                                LinkUp started with a simple frustration: trying to make plans in a group chat. Between everyone's different schedules, endless messages, and figuring out who was available, making plans with friends could become unnecessarily complicated. I wanted to find a way to make the process easier, which led me to the idea of LinkUp.
+                              </p>
+                              <p>
+                                LinkUp is an iMessage app designed to help friends find common availability without the back-and-forth of group chat planning. While I came up with the original concept, my brother helped bring my vision to life through coding and development. I also contributed to marketing the app through Instagram, helping introduce LinkUp to potential users.
+                              </p>
+                              <p>
+                                What started as a simple idea eventually became a real application available on the Apple App Store! This experience taught me how creativity, collaboration, and technology can come together to turn an everyday problem into something meaningful.
                               </p>
                             </>
                           ) : (
