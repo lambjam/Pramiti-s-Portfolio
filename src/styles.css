@@ -1224,6 +1224,67 @@ button {
   }
 }
 
+/* Keep the progress photos together, with room for the website polaroid. */
+.refit-progress-canvas {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(24px, 3vw, 52px);
+  align-content: center;
+  align-items: start;
+}
+
+.refit-social-photos {
+  width: 100%;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.refit-progress-canvas .refit-social-item {
+  transform: none;
+}
+
+.refit-progress-canvas .refit-social-photo img {
+  height: min(48vh, 27vw, 440px);
+}
+
+.refit-progress-canvas .refit-research-photo img {
+  height: min(48vh, 27vw, 440px);
+}
+
+.refit-website-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  color: #57364b;
+  text-decoration: none;
+}
+
+.refit-website-photo {
+  padding: 10px;
+  transform: rotate(-3deg);
+}
+
+.refit-progress-canvas .refit-website-photo img {
+  width: 100%;
+  height: min(48vh, 27vw, 440px);
+  max-height: none;
+  aspect-ratio: 850 / 785;
+  object-fit: contain;
+  background: #f8f0dc;
+}
+
+.refit-website-item:hover,
+.refit-website-item:focus-visible {
+  outline: 3px dashed #a888d8;
+  outline-offset: 8px;
+}
+
+@media (min-width: 1680px) and (min-height: 650px) {
+  .refit-progress-canvas .refit-progress-collage { display: none; }
+}
+
 .bio-character-sticker {
   position: absolute;
   z-index: 2;
@@ -2262,6 +2323,57 @@ button {
     font-size: 17.5px;
     line-height: 1.2;
   }
+}
+
+@media (max-width: 650px) {
+  .refit-progress-canvas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px 16px;
+    margin-top: 52px;
+    align-content: start;
+  }
+
+  .refit-social-photos {
+    grid-column: 1 / -1;
+  }
+
+  .refit-progress-canvas .refit-social-photo img,
+  .refit-social-item:last-child .refit-progress-photo img {
+    height: min(25vh, 190px);
+  }
+
+  .refit-progress-canvas .refit-research-photo img,
+  .refit-progress-canvas .refit-website-photo img {
+    height: min(19vh, 150px);
+  }
+
+  .refit-progress-canvas .refit-progress-label {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .refit-website-photo .refit-progress-tape {
+    width: 70px;
+  }
+}
+
+.refit-progress-canvas .refit-social-photos {
+  column-gap: clamp(6px, 0.8vw, 12px);
+  row-gap: 16px;
+}
+
+.refit-progress-canvas .refit-social-item:first-child {
+  justify-self: end;
+}
+
+.refit-progress-canvas .refit-social-item:nth-child(2) {
+  justify-self: start;
+}
+
+.refit-progress-canvas .refit-social-label {
+  grid-column: 1 / -1;
+  justify-self: center;
+  margin-top: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

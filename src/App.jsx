@@ -6,6 +6,7 @@ import strawberrySticker from './assets/strawberry-sticker.png';
 import linkUpLogo from './assets/link-up-logo.png';
 import reFitSticker from './assets/re-fit-sticker.png';
 import refitResearchProgress from './assets/refit-research-progress.png';
+import refitWebsite from './assets/refit-website.png';
 import refitSocialInstagram from './assets/refit-social-instagram.png';
 import refitSocialTiktok from './assets/refit-social-tiktok.png';
 import refitDonationPoster from './assets/refit-donation-poster.png';
@@ -319,7 +320,6 @@ function App() {
                           <span className="refit-progress-tape" aria-hidden="true" />
                           <img src={refitSocialInstagram} alt="Re-fit Instagram profile and clothing posts" />
                         </figure>
-                        <h3 className="refit-progress-label">social media marketing</h3>
                       </div>
                       <div className="refit-social-item">
                         <figure className="refit-progress-photo refit-social-photo">
@@ -327,6 +327,7 @@ function App() {
                           <img src={refitSocialTiktok} alt="Re-fit TikTok profile and clothing posts" />
                         </figure>
                       </div>
+                      <h3 className="refit-progress-label refit-social-label">social media marketing</h3>
                     </div>
                     <div className="refit-research-item">
                       <figure className="refit-progress-photo refit-research-photo">
@@ -335,6 +336,13 @@ function App() {
                       </figure>
                       <h3 className="refit-progress-label">research progress</h3>
                     </div>
+                    <a className="refit-website-item" href="https://re-fitofficial.vercel.app/" target="_blank" rel="noopener noreferrer" aria-label="Refit website (opens in a new tab)">
+                      <figure className="refit-progress-photo refit-website-photo">
+                        <span className="refit-progress-tape" aria-hidden="true" />
+                        <img src={refitWebsite} alt="Re-fit website artwork" />
+                      </figure>
+                      <h3 className="refit-progress-label">refit website, designed by me :)</h3>
+                    </a>
                     <aside className="refit-progress-collage refit-progress-collage--left" aria-label="More Re-fit project posters">
                       {[
                         { image: refitDonationPoster, alt: 'Re-fit clothing donation poster' },
