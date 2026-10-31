@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import pramitiPhoto from './assets/pramiti-photo.png';
 import journalCharacterSticker from './assets/journal-character-sticker.png';
 import doggoSticker from './assets/doggo-sticker.png';
@@ -22,6 +23,16 @@ const gifts = Object.entries(giftPhotos)
     name: path.split('/').pop().replace('.png', ''),
     photo,
     video: giftVideos[path.replace('.png', ' Video.mp4')],
+  }));
+
+const craftPhotos = import.meta.glob('./assets/Crafts/*.png', { eager: true, query: '?url', import: 'default' });
+const craftVideos = import.meta.glob('./assets/Crafts/*.mp4', { eager: true, query: '?url', import: 'default' });
+const crafts = Object.entries(craftPhotos)
+  .sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))
+  .map(([path, photo]) => ({
+    name: path.split('/').pop().replace('.png', ''),
+    photo,
+    video: craftVideos[path.replace('.png', ' Video.mp4')],
   }));
 
 const paperContent = {
@@ -77,6 +88,15 @@ function App() {
   const [activeProject, setActiveProject] = useState(null);
   const [activeHobby, setActiveHobby] = useState(null);
   const [selectedGift, setSelectedGift] = useState(null);
+  const videoRef = useRef(null);
+  const openVideo = (gift) => {
+    flushSync(() => setSelectedGift(gift));
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    video.volume = 1;
+    video.play().catch(() => {});
+  };
 
   useEffect(() => {
     if (!selectedGift) return undefined;
@@ -314,25 +334,23 @@ function App() {
           <div className="about-card notebook-card hobby-notecard" key={activeHobby}>
             <button type="button" className="close" aria-label="Close panel" onClick={() => setActiveHobby(null)}>×</button>
             <h2 id="hobbyTitle"><span className="about-title-text project-page-title">{activeHobby === 'crafts' ? 'crafts made by me' : 'gifts I made for my friends'}</span></h2>
-            {activeHobby === 'gifts' && (
-              <div className="gift-gallery" aria-label="Handmade gifts">
-                {gifts.map((gift, index) => (
+            <div className={`gift-gallery${activeHobby === 'crafts' ? ' craft-gallery' : ''}`} aria-label={activeHobby === 'crafts' ? 'Handmade crafts' : 'Handmade gifts'}>
+                {(activeHobby === 'crafts' ? crafts : gifts).map((gift, index) => (
                   <figure className="gift-polaroid" key={gift.name} style={{ '--gift-delay': `${1.4 + index * 0.09}s` }}>
                     <div className="gift-photo-frame">
                     <span className="gift-tape" aria-hidden="true" />
                     {gift.video ? (
-                      <button type="button" className="gift-video-trigger" aria-label={`Play video of ${gift.name}`} onClick={() => setSelectedGift(gift)}>
-                        <img src={gift.photo} alt={`${gift.name}, handmade for my friends`} />
+                      <button type="button" className="gift-video-trigger" aria-label={`Play video of ${gift.name}`} onClick={() => openVideo(gift)}>
+                        <img src={gift.photo} alt={`${gift.name}, handmade by me`} />
                         <span className="gift-play-label">▶ watch video</span>
                       </button>
                     ) : (
-                      <img src={gift.photo} alt={`${gift.name}, handmade for my friends`} loading="lazy" />
+                      <img src={gift.photo} alt={`${gift.name}, handmade by me`} loading="lazy" />
                     )}
                     </div>
                   </figure>
                 ))}
               </div>
-            )}
             <button type="button" className="hobby-back" onClick={() => setActiveHobby(null)}>← Back to Things I love</button>
           </div>
         </section>
@@ -342,7 +360,7 @@ function App() {
         <div className="gift-video-overlay" role="dialog" aria-modal="true" aria-label={`Video of ${selectedGift.name}`} onClick={(event) => { if (event.target === event.currentTarget) setSelectedGift(null); }}>
           <div className="gift-video-player">
             <button className="gift-video-close" type="button" autoFocus onClick={() => setSelectedGift(null)}>Close video ×</button>
-            <video key={selectedGift.video} src={selectedGift.video} poster={selectedGift.photo} controls autoPlay playsInline preload="metadata">
+            <video ref={videoRef} key={selectedGift.video} src={selectedGift.video} poster={selectedGift.photo} controls autoPlay playsInline preload="metadata">
               Your browser does not support this video. <a href={selectedGift.video}>Download video</a>
             </video>
           </div>

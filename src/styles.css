@@ -609,12 +609,27 @@ button {
 .gift-polaroid:nth-child(8) { transform: rotate(3deg); }
 .gift-polaroid:nth-child(9) { transform: rotate(-3deg); }
 .gift-polaroid:nth-child(10) { transform: rotate(1.5deg); }
+.gift-polaroid:nth-child(11) { transform: rotate(-2.5deg); }
+.gift-polaroid:nth-child(12) { transform: rotate(2deg); }
+.craft-gallery { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 
 .gift-photo-frame {
   position: relative;
   display: inline-flex;
   max-width: 100%;
   min-width: 0;
+  transition: translate 0.25s ease, filter 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gift-polaroid:hover .gift-photo-frame {
+    translate: 0 -8px;
+    filter: drop-shadow(0 8px 6px #57364b33);
+  }
+}
+
+.gift-polaroid:focus-within .gift-photo-frame {
+  translate: 0 -8px;
 }
 
 .gift-tape {
