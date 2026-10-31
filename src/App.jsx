@@ -14,6 +14,11 @@ import refitDonationPoster from './assets/refit-donation-poster.png';
 import refitComingSoon from './assets/refit-coming-soon.png';
 import refitCampaignPoster from './assets/refit-campaign-poster.png';
 import refitWardrobeNotifications from './assets/refit-wardrobe-notifications.png';
+import fcclaThirdPlace from './assets/FCCLA Awards/3rdplace.png';
+import fcclaFirstPlace from './assets/FCCLA Awards/1stplaceregions.png';
+import fcclaSecondPlace from './assets/FCCLA Awards/2ndplacestate.png';
+import fcclaRegionsExtra from './assets/FCCLA Awards/1splaceregions backside flip.png';
+import fcclaNationals from './assets/FCCLA Awards/nationalsphoto.png';
 
 const giftPhotos = import.meta.glob('./assets/Gifts/*.png', { eager: true, query: '?url', import: 'default' });
 const giftVideos = import.meta.glob('./assets/Gifts/*.mp4', { eager: true, query: '?url', import: 'default' });
@@ -79,6 +84,90 @@ const papers = [
     label: 'CLICK TO OPEN ↗',
   },
 ];
+
+const fcclaAwards = [
+  {
+    event: 'Interpersonal Communication Event', result: '3rd Place', level: 'Regional Competition', photo: fcclaThirdPlace,
+    description: <>During my sophomore year, my friend Iksha and I competed in the FCCLA Interpersonal Communications event with our project, <em>Cherish the Bonds</em>. Together, we created a board game designed to strengthen family relationships by encouraging meaningful conversations and thoughtful questions. Our goal was to help families better understand one another while spending quality time together. We earned 3rd place at the regional competition, showing us how creativity can be used to bring people closer together.</>,
+  },
+  {
+    event: 'Sustainability Challenge Event', result: '1st Place', level: 'Regional Competition', photo: fcclaFirstPlace, backPhoto: fcclaRegionsExtra, backPhotoAlt: 'Another photo from my FCCLA regional competition',
+    description: <>During my junior year, I competed individually in the FCCLA Sustainability Challenge, focusing on the environmental impact of single-use plastic bags. I researched plastic pollution and explored how reusable tote bags could encourage more sustainable everyday habits. Through this project, I combined my passion for sustainability with my creativity by developing a practical alternative to plastic bags. My project earned 1st place at the regional competition, allowing me to advance to the state level.</>,
+  },
+  {
+    event: 'Sustainability Challenge Event', result: '2nd Place', level: 'State Competition', photo: fcclaSecondPlace, qualifier: 'Sustainability Challenge Event National Qualifier', backPhoto: fcclaNationals, backPhotoAlt: 'My FCCLA Nationals experience in Washington, D.C.',
+    description: <>After placing 1st at regionals, I continued competing with my Sustainability Challenge project and earned 2nd place at the state competition, qualifying for FCCLA Nationals in Washington, D.C.! Attending nationals was one of the most memorable experiences of my junior year. I had the opportunity to travel, meet students from across the country, make new friends, and experience an entirely new environment. Beyond the competition, this experience helped me step outside my comfort zone, grow in confidence, and create memories.</>,
+  },
+];
+
+function FcclaAwards() {
+  const [flipped, setFlipped] = useState({});
+  const description = 'FCCLA stands for Family, Career and Community Leaders of America. It’s a student organization that helps young people build leadership, communication, and career skills through Family and Consumer Sciences education, community service, and competitive events.';
+  const [typedLength, setTypedLength] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTypedLength(description.length);
+      return undefined;
+    }
+    let interval;
+    const timeout = window.setTimeout(() => {
+      interval = window.setInterval(() => {
+        setTypedLength((length) => {
+          const next = Math.min(length + 3, description.length);
+          if (next === description.length) window.clearInterval(interval);
+          return next;
+        });
+      }, 20);
+    }, 1500);
+    return () => { window.clearTimeout(timeout); window.clearInterval(interval); };
+  }, [description]);
+  return (
+    <>
+      <header className="fccla-header">
+        <h2 id="aboutTitle"><span className="about-title-text fccla-title">FCCLA Awards</span></h2>
+        <p className="fccla-description">
+          <span className="fccla-description-space" aria-hidden="true">{description} About FCCLA ↗</span>
+          <span className="fccla-description-typed" aria-hidden="true">{description.slice(0, typedLength)} {typedLength === description.length && <a href="https://fcclainc.org/about" target="_blank" rel="noopener noreferrer">About FCCLA ↗</a>}</span>
+          <span className="fccla-description-accessible">{description}</span>
+        </p>
+      </header>
+      <div className="fccla-awards-grid">
+        {fcclaAwards.map((award, index) => (
+          <div className="fccla-award-entry" key={`${award.event}-${award.level}`} style={{ '--award-delay': `${1.4 + index * 0.18}s` }}>
+            <button className={`fccla-flip-card${flipped[index] ? ' is-flipped' : ''}`} type="button" aria-pressed={Boolean(flipped[index])} aria-label={`${award.event}, ${award.result}, ${award.level}. ${flipped[index] ? 'Show award photo' : 'Flip for competition details'}`} onClick={() => setFlipped((current) => ({ ...current, [index]: !current[index] }))}>
+              <span className="fccla-card-inner">
+                <span className="fccla-card-face fccla-card-front" aria-hidden={Boolean(flipped[index])}>
+                  <span className="fccla-card-kicker">FCCLA</span>
+                  <span className="fccla-photo-frame"><img src={award.photo} alt={`FCCLA ${award.result} at the ${award.level}`} /></span>
+                  <span className="fccla-event">{award.event}</span>
+                  <span className="fccla-result">{award.result} · {award.level}</span>
+                  {award.qualifier && <span className="fccla-qualifier">{award.qualifier}</span>}
+                  <span className="fccla-flip-hint">flip to read more ↗</span>
+                </span>
+                <span className="fccla-card-face fccla-card-back" aria-hidden={!flipped[index]}>
+                  <span className="fccla-card-kicker">behind the award</span>
+                  <span className="fccla-event">{award.event}</span>
+                  <span className="fccla-details">{award.description}</span>
+                  {award.backPhoto && (
+                    <span className="fccla-back-photo">
+                      <img src={award.backPhoto} alt={award.backPhotoAlt} loading="lazy" />
+                    </span>
+                  )}
+                  <span className="fccla-flip-hint">↶ flip back</span>
+                </span>
+              </span>
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="fccla-decorations" aria-hidden="true">
+        <span className="fccla-emoji fccla-emoji-heart">💗</span>
+        <span className="fccla-emoji fccla-emoji-flower">🌼</span>
+        <span className="fccla-emoji fccla-emoji-sparkle">✨</span>
+      </div>
+    </>
+  );
+}
 
 function App() {
   const [folderOpen, setFolderOpen] = useState(false);
@@ -390,13 +479,13 @@ function App() {
       </div>
 
       <section className={`about-panel ${aboutOpen || activeProject ? 'show' : ''}`} role="dialog" aria-modal="true" aria-labelledby="aboutTitle" onClick={(event) => { if (event.target === event.currentTarget) closePanel(); }}>
-        <div className={`about-card${activePage || (!activeProject && !aboutOpen) ? '' : ' notebook-card'}${activeProject === 'refit' ? ' refit-project-card' : ''}`}>
+        <div className={`about-card${activePage === 'achievements' ? ' notebook-card fccla-page' : activePage || (!activeProject && !aboutOpen) ? '' : ' notebook-card'}${activeProject === 'refit' ? ' refit-project-card' : ''}`}>
           <button type="button" className="close" aria-label="Close panel" onClick={closePanel}>
             <svg className="close-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M7 7l10 10M17 7 7 17" />
             </svg>
           </button>
-          {activeProject ? (
+          {activePage === 'achievements' ? <FcclaAwards /> : activeProject ? (
             <>
               {activeProject === 'refit-progress' ? (
                 <>

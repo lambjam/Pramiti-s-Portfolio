@@ -2712,6 +2712,55 @@ button {
   .hobby-notecard h2 { padding-right: 28px; font-size: 30px; }
 }
 
+.fccla-page { isolation: isolate; }
+.fccla-header { text-align: center; flex: 0 0 auto; padding-inline: 24px; }
+.fccla-header h2 { margin: 0 0 12px; }
+.fccla-title { padding: 8px 24px; background: #f8dc78; color: #60243e; box-shadow: 2px 3px 5px #57364b2b; }
+.fccla-header p { max-width: 850px; margin: 0 auto; font-size: clamp(13px, 1.2vw, 16px); line-height: 1.65; }
+.fccla-header a { color: #7c2c50; text-underline-offset: 3px; }
+.fccla-description { display: grid; }
+.fccla-description-space,
+.fccla-description-typed { grid-area: 1 / 1; }
+.fccla-description-space { visibility: hidden; }
+.fccla-description-accessible { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.fccla-awards-grid { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 48px); padding: 30px 20px 20px; }
+.fccla-award-entry { min-height: 0; animation: refit-photo-rise 0.65s ease-out var(--award-delay) both; }
+.fccla-flip-card { display: block; width: 100%; height: 100%; border: 0; padding: 0; background: transparent; color: #57364b; font: inherit; cursor: pointer; perspective: 1200px; transition: translate 0.25s ease; }
+.fccla-card-inner { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.fccla-flip-card.is-flipped .fccla-card-inner { transform: rotateY(180deg); }
+.fccla-card-face { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; padding: clamp(16px, 2vw, 28px) 20px clamp(16px, 2vw, 28px) 54px; backface-visibility: hidden; border: 1px solid #ded6c9; border-radius: 3px; box-shadow: 0 6px 14px #57364b33; background: linear-gradient(90deg, transparent 0 35px, #e8a8bb 36px 37px, transparent 38px), repeating-linear-gradient(180deg, #fffdf8 0 30px, #badce8 31px 32px); text-align: center; overflow-y: auto; }
+.fccla-card-back { transform: rotateY(180deg); justify-content: flex-start; text-align: left; }
+.fccla-card-kicker { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #7c2c50; }
+.fccla-photo-frame { display: flex; align-items: center; justify-content: center; flex: 1 1 auto; width: 100%; min-height: 0; overflow: hidden; }
+.fccla-photo-frame img { display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; border: 5px solid #fffefa; }
+.fccla-event { font: italic 700 clamp(17px, 1.7vw, 25px)/1.25 Georgia, serif; }
+.fccla-result { font-size: clamp(13px, 1.15vw, 16px); line-height: 1.4; }
+.fccla-qualifier { padding: 5px 8px; background: #f8dc78; font-size: 12px; line-height: 1.4; }
+.fccla-flip-hint { margin-top: auto; font-size: 12px; color: #7c2c50; }
+.fccla-card-back .fccla-flip-hint { margin-top: 18px; }
+.fccla-details { font-size: clamp(12px, 1.05vw, 15px); line-height: 1.65; }
+.fccla-card-back { overscroll-behavior: contain; touch-action: pan-y; }
+.fccla-card-back > * { flex-shrink: 0; }
+.fccla-back-photo { display: block; width: 100%; margin-top: 14px; }
+.fccla-back-photo img { display: block; width: 100%; height: auto; border: 5px solid #fffefa; box-shadow: 0 3px 8px #57364b26; }
+.fccla-flip-card:focus-visible { outline: 3px dashed #a888d8; outline-offset: 5px; }
+@media (hover: hover) and (pointer: fine) { .fccla-flip-card:hover { translate: 0 -8px; } }
+.fccla-decorations { position: absolute; inset: 0; pointer-events: none; }
+.fccla-emoji { position: absolute; font-size: clamp(26px, 3vw, 42px); animation: emoji-slap 0.65s ease-out 2.8s both; }
+.fccla-emoji-heart { left: 2%; bottom: 5%; --sticker-rotation: -12deg; }
+.fccla-emoji-flower { right: 2%; bottom: 5%; --sticker-rotation: 10deg; animation-delay: 3s; }
+.fccla-emoji-sparkle { left: 3%; top: 20%; --sticker-rotation: -8deg; animation-delay: 3.2s; }
+@media (max-width: 650px) {
+  .fccla-page { overflow-y: auto; }
+  .fccla-header { padding-inline: 12px; }
+  .fccla-header h2 { font-size: 30px; padding-right: 24px; }
+  .fccla-title { padding: 8px 12px; }
+  .fccla-awards-grid { flex: 0 0 auto; grid-template-columns: 1fr; padding: 28px 12px; gap: 28px; }
+  .fccla-award-entry { height: 410px; }
+  .fccla-details { font-size: 13px; }
+  .fccla-decorations { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
